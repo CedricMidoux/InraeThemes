@@ -39,7 +39,6 @@ Notes
   sink()
 
 
-
   # Generating a README -----------------------------------------------------
   file.create(file.path(projname, "README.md"))
   sink(file.path(projname, "README.md"))

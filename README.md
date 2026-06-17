@@ -80,7 +80,7 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
   scale_color_inrae()
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.png" alt="" width="100%" />
 
 ``` r
 
@@ -95,7 +95,7 @@ ggplot(penguins, aes(x = species, y = body_mass_g, fill = species)) +
   scale_fill_inrae()
 ```
 
-<img src="man/figures/README-example-2.png" width="100%" />
+<img src="man/figures/README-example-2.png" alt="" width="100%" />
 
 ``` r
 
@@ -110,7 +110,7 @@ ggplot(penguins, aes(x = bill_length_mm, fill = species)) +
   scale_fill_inrae()
 ```
 
-<img src="man/figures/README-example-3.png" width="100%" />
+<img src="man/figures/README-example-3.png" alt="" width="100%" />
 
 ``` r
 
@@ -125,7 +125,7 @@ ggplot(penguins, aes(x = flipper_length_mm, fill = species)) +
   scale_fill_inrae()
 ```
 
-<img src="man/figures/README-example-4.png" width="100%" />
+<img src="man/figures/README-example-4.png" alt="" width="100%" />
 
 ``` r
 
@@ -141,7 +141,41 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = island)) +
   facet_wrap(~species)
 ```
 
-<img src="man/figures/README-example-5.png" width="100%" />
+<img src="man/figures/README-example-5.png" alt="" width="100%" />
+
+We also recommend using the {monochromeR} package to create a lighter,
+darker, or both types of palettes, from institutional color. You can use
+the `create_palette` function to generate a custom palette.
+
+``` r
+inrae_darker_3 <- monochromeR::generate_palette(
+  InraeThemes::inrae_colors()[["institutional"]],
+  modification = "go_darker",
+  n_colours = 3,
+  view_palette = TRUE,
+  view_labels = FALSE
+)
+```
+
+<img src="man/figures/README-monochromeR-1.png" alt="" width="100%" />
+
+``` r
+
+inrae_darker_3 <- setNames(inrae_darker_3, levels(penguins$species))
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3, alpha = 0.7) +
+  labs(
+    title = "Relation entre la longueur des nageoires et la masse corporelle",
+    subtitle = "Données des pingouins par espèce",
+    x = "Longueur des nageoires (mm)",
+    y = "Masse corporelle (g)"
+  ) +
+  theme_inrae() +
+  scale_colour_manual(values = inrae_darker_3)
+```
+
+<img src="man/figures/README-monochromeR-2.png" alt="" width="100%" />
 
 ### gt theme
 
@@ -156,7 +190,7 @@ tab <- penguins |>
     title = md("**Caractéristiques des pingouins**"),
     subtitle = "Sous-titre du tableau"
   ) |>
-  theme_inrae_gt() 
+  theme_inrae_gt()
 ```
 
 ![](man/figures/tab_gt.png)

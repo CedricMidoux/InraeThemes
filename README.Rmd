@@ -124,10 +124,34 @@ ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = island)) +
   facet_wrap(~species)
 ```
 
+We also recommend using the {monochromeR} package to create a lighter, darker, or both types of palettes, from institutional color. You can use the `create_palette` function to generate a custom palette.
+
+```{r monochromeR, message = FALSE, fig.showtext=TRUE, fig_retina = 1, warning = FALSE, fig.width = 10}
+inrae_darker_3 <- monochromeR::generate_palette(
+  InraeThemes::inrae_colors()[["institutional"]],
+  modification = "go_darker",
+  n_colours = 3,
+  view_palette = TRUE,
+  view_labels = FALSE
+)
+
+inrae_darker_3 <- setNames(inrae_darker_3, levels(penguins$species))
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 3, alpha = 0.7) +
+  labs(
+    title = "Relation entre la longueur des nageoires et la masse corporelle",
+    subtitle = "Données des pingouins par espèce",
+    x = "Longueur des nageoires (mm)",
+    y = "Masse corporelle (g)"
+  ) +
+  theme_inrae() +
+  scale_colour_manual(values = inrae_darker_3)
+```
+
 ### gt theme
 
 This package also provides a {gt} theme with `theme_inrae_gt()`:
-
 
 ```{r example gt, message = FALSE, warning = FALSE, eval = FALSE}
 library(gt)
@@ -138,12 +162,10 @@ tab <- penguins |>
     title = md("**Caractéristiques des pingouins**"),
     subtitle = "Sous-titre du tableau"
   ) |>
-  theme_inrae_gt() 
+  theme_inrae_gt()
 ```
 
 ![](man/figures/tab_gt.png)
-
-
 
 ### Bootstrap theme
 
